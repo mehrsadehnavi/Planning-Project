@@ -26,7 +26,7 @@ def get_predecessor(state, actions):
     result = []
     for action in actions:
         if action.is_relevant(state):
-            predecessor = State(state, action, state.positive_literals)
+            predecessor = State(state, action, state.positive_literals, state.negative_literals)
             action.regress(predecessor)
             result.append(predecessor)
 
