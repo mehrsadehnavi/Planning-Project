@@ -1,5 +1,5 @@
 class State:
-    def __init__(self, parent, action, positive_literals, negative_literals):
+    def init(self, parent, action, positive_literals, negative_literals):
         self.parent = parent
         self.action = action
 
@@ -32,7 +32,7 @@ class State:
         while i < len(self.positive_literals):
             hash += self.positive_literals[i]
             i += 1
-        
+
         while j < len(self.negative_literals):
             hash += self.negative_literals[j]
             j += 1

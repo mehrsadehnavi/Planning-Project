@@ -7,7 +7,7 @@ class Action:
         self.delete_list = delete_list
 
     def regress(self, state):
-        #write your code
+        state - add_list + positive_preconditions
         return
 
     def is_relevant(self, state):
@@ -20,10 +20,13 @@ class Action:
         return True
 
     def is_unified(self, state):
+    #ایا با این اکشن میتوینم بهش برسیم یا نه
+    # add list should be in positive and delete list in negative
         #write your code
         return
 
     def is_conflicting(self, state):
+        #پازتیو اینو با دیلیت لیست(نگاتیو) اون چک میکنه
         #write your code
         return
 

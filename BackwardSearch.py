@@ -1,5 +1,6 @@
 from State import State
 
+
 def backward_search(goal_state, initial_state, actions):
     fringe = [goal_state]
     in_fringe = [goal_state.hash()]
@@ -9,25 +10,28 @@ def backward_search(goal_state, initial_state, actions):
         current_state = fringe.pop(0)
         in_fringe.pop(0)
         explored.append(current_state.hash())
-        successors = get_successors(current_state, actions)
+        predecessor = get_predecessor(current_state, actions)
 
-        for successor in successors:
-            if goal_test(successor, initial_state):
-                print_solution(successor)
+        for predecessor in predecessor:
+            if goal_test(predecessor, initial_state):
+                print_solution(predecessor)
                 return
             else:
-                if successor.hash() not in in_fringe and successor.hash() not in explored:
-                    fringe.append(successor)
-                    in_fringe.append(successor.hash())
+                if predecessor.hash() not in in_fringe and predecessor.hash() not in explored:
+                    fringe.append(predecessor)
+                    in_fringe.append(predecessor.hash())
 
-def get_successors(state, actions):
+
+def get_predecessor(state, actions):
     result = []
     for action in actions:
-        #write your code here
-
-
+        if action.is_relevant(state):
+            predecessor = State(state, action, state.positive_literals)
+            action.regress(predecessor)
+            result.append(predecessor)
 
     return result
+
 
 def goal_test(state, initial_state):
     for positive_literal in state.positive_literals:
@@ -39,6 +43,7 @@ def goal_test(state, initial_state):
             return False
 
     return True
+
 
 def print_solution(state):
     while True:
