@@ -1,5 +1,5 @@
 class State:
-    def init(self, parent, action, positive_literals, negative_literals):
+    def __init__(self, parent, action, positive_literals, negative_literals):
         self.parent = parent
         self.action = action
 
