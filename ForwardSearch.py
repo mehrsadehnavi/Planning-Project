@@ -27,8 +27,8 @@ def get_successors(state, actions):
     for action in actions:
         if action.is_executable(state):
             successors = State(state, action, state.positive_literals, state.negative_literals)
-            action.regress(predecessor)
-            result.append(predecessor)
+            action.progress(successors)
+            result.append(successors)
 
     return result
 

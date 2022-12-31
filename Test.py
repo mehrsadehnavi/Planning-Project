@@ -1,5 +1,6 @@
 from State import State
 from BackwardSearch import backward_search
+from ForwardSearch import forward_search
 from tireproblem import get_actions
 import time
 
@@ -14,7 +15,8 @@ def main():
     goal_state = State(None, None, positive_literals=["atspareaxle"], negative_literals=[])
     # actions = [Action("Generic", positive_preconditions=["A", "B"], negative_preconditions=[], add_list=["C"], delete_list=[]), \
     # Action("Generic", positive_preconditions=["B", "C"], negative_preconditions=[], add_list=["D"], delete_list=[])]
-    backward_search(goal_state, initial_state, actions)
+    # backward_search(goal_state, initial_state, actions)
+    forward_search(goal_state, initial_state, actions)
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
