@@ -51,13 +51,14 @@ class Action:
         for positive_preconditions in self.positive_preconditions:
             if positive_preconditions not in state.positive_literals:
                 return False
+
         for negative_preconditions in self.negative_preconditions:
             if negative_preconditions not in state.negative_literals:
                 return False
+
         return True
 
     def is_unified(self, state):
-
         return not (set(state.positive_literals).isdisjoint(self.add_list) and set(state.negative_literals).isdisjoint(self.delete_list))
 
     def is_conflicting(self, state):

@@ -33,13 +33,17 @@ def get_successors(state, actions):
     return result
 
 
-def goal_test(state, goal_state):
-    for positive_literal in state.positive_literals:
-        if positive_literal not in goal_state.positive_literals:
+def goal_test(state, goal_state):  # should be checked
+    for positive_literal in goal_state.positive_literals:
+        if positive_literal not in state.positive_literals:
             return False
 
-    for negative_literal in state.negative_literals:
-        if negative_literal in goal_state.positive_literals:
+    for positive_literal in goal_state.positive_literals:
+        if positive_literal in state.negative_literals:
+            return False
+
+    for negative_literal in goal_state.negative_literals:
+        if negative_literal in state.positive_literals:
             return False
     return True
 
