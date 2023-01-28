@@ -1,4 +1,5 @@
 from State import State
+from Test import PlanningProblem
 
 
 def forward_search(goal_state, initial_state, actions):
@@ -6,6 +7,7 @@ def forward_search(goal_state, initial_state, actions):
     in_fringe = [initial_state.hash()]
     explored = []
 
+    i = 0
     while fringe:
         current_state = fringe.pop(0)
         in_fringe.pop(0)
@@ -15,11 +17,12 @@ def forward_search(goal_state, initial_state, actions):
         for successor in successors:
             if goal_test(successor, goal_state):
                 print_solution(successor)
-                return
+                return i
             else:
                 if successor.hash() not in in_fringe and successor.hash() not in explored:
                     fringe.append(successor)
                     in_fringe.append(successor.hash())
+        i += 1
 
 
 def get_successors(state, actions):
@@ -54,3 +57,23 @@ def print_solution(state):
             break
         print(state.action.to_string())
         state = state.parent
+
+
+def ignore_preconditions_heuristic(state, goal_state, actions):
+    relaxed_planning_problem = PlanningProblem(initial_state=state.state,
+                                               goal_state=goal_state,
+                                               actions=[action.relaxed_1(state, actions) for action in actions])
+    try:
+        return len(relaxed_planning_problem.test())
+    except:
+        return float('inf')
+
+
+def ignore_delete_lists(state, goal_state, actions):
+    relaxed_planning_problem = PlanningProblem(initial_state=state.state,
+                                               goal_state=goal_state,
+                                               actions=[action.relaxed_2() for action in actions])
+    try:
+        return len(relaxed_planning_problem.test())
+    except:
+        return float('inf')
