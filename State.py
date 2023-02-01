@@ -16,25 +16,25 @@ class State:
         return f'state, positive literals: {self.positive_literals}, negative literals: {self.negative_literals}'
 
     def hash(self):
-        hash = ""
+        hash_string = ""
 
         i = 0
         j = 0
 
         while i < len(self.positive_literals) and j < len(self.negative_literals):
             if self.positive_literals[i] <= self.negative_literals[j]:
-                hash += self.positive_literals[i]
+                hash_string += self.positive_literals[i]
                 i += 1
             else:
-                hash += self.negative_literals[j]
+                hash_string += self.negative_literals[j]
                 j += 1
 
         while i < len(self.positive_literals):
-            hash += self.positive_literals[i]
+            hash_string += self.positive_literals[i]
             i += 1
 
         while j < len(self.negative_literals):
-            hash += self.negative_literals[j]
+            hash_string += self.negative_literals[j]
             j += 1
 
-        return hash
+        return hash_string

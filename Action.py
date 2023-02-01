@@ -66,11 +66,3 @@ class Action:
 
     def to_string(self):
         return f'action, name: {self.name}, positive preconditions: {self.positive_preconditions}, negative preconditions: {self.negative_preconditions}, add list: {self.add_list}, delete list: {self.delete_list}'
-
-    def relaxed_1(self, state, actions):
-        for action in actions:
-            state.positive_literals.remove(action.positive_preconditions)
-            state.negative_literals.remove(action.negative_preconditions)
-
-    def relaxed_2(self):
-        self.delete_list = []
