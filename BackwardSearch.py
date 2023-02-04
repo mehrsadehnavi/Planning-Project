@@ -1,6 +1,5 @@
 import copy
 import math
-
 from State import State
 
 
@@ -11,9 +10,9 @@ def backward_search(goal_state, initial_state, actions, is_original_problem):
     node_checked_counter = 0
 
     while fringe:
-        if is_original_problem:
-            fringe.sort(key=lambda node: ignore_preconditions_heuristic(node, initial_state, actions))
-            # fringe.sort(key=lambda node: ignore_delete_lists(node, initial_state, actions))
+        # if is_original_problem:
+        #     fringe.sort(key=lambda node: ignore_preconditions_heuristic(node, initial_state, actions))
+        #     fringe.sort(key=lambda node: ignore_delete_lists(node, initial_state, actions))
 
         current_state = fringe.pop(0)
         in_fringe.pop(0)

@@ -1,7 +1,12 @@
 from Action import Action
+from State import State
 
 
-def get_actions():
+def tire_problem():
+    initial_state = State(None, None, positive_literals=["atflataxle", "atsparetrunk"],
+                          negative_literals=['atflatground', 'atflattrunk', 'atspareground', 'atspareaxle'])
+    goal_state = State(None, None, positive_literals=["atspareaxle", 'atflatground'],
+                       negative_literals=['atspareground', 'atsparetrunk', 'atflataxle', 'atflattrunk'])
     actions = []
     tires = ["spare", "flat"]
     locations = ["axle", "trunk"]
@@ -15,4 +20,4 @@ def get_actions():
                                    add_list=["at" + tire + "ground"], delete_list=["at" + tire + location])
             actions.append(remove_action)
 
-    return actions
+    return [initial_state, goal_state, actions]

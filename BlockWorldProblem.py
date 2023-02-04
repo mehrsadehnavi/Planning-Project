@@ -1,21 +1,17 @@
 from Action import Action
 from State import State
 
-initial_state = State(None, None,
-                      positive_literals=["onAtable", "onCA", "onBtable",
-                                         "clearB", "clearC", "cleartable",
-                                         "blockB", "blockC", "blockA"],
-                      negative_literals=['onAB', 'onAC', 'onBC',
-                                         'onCA', "clearB", "clearC"]
-                      )
 
-goal_state = State(None, None,
-                   positive_literals=["onAB", "onBC"],
-                   negative_literals=['onAB', 'onAC', 'onBC',
-                                      'onCA', "clearB", "clearC"]
-                   )
+def block_world_problem():
+    # initial_state = negative_literals=['onAB', 'onAC', 'onBC', 'onCA', "clearB", "clearC"]
+    initial_state = State(None, None,
+                          positive_literals=["onAtable", "onCA", "onBtable", "clearB",
+                                             "clearC", "cleartable", "blockB", "blockC", "blockA"],
+                          negative_literals=["clearA", "onBA", "onBC", "onAB", "onAC", "onAB", "onCB"])
 
-def get_actions():
+    goal_state = State(None, None, positive_literals=["onAB", "onBC"],
+                       negative_literals=['onAB', 'onAC', 'onBC', 'onCA', "clearB", "clearC"])
+
     actions = []
     blocks = ["A", "B", "C"]
     locations = ["A", "B", "C", "table"]
@@ -53,4 +49,4 @@ def get_actions():
                                           delete_list=["on" + block + location])
             actions.append(move_to_table_action)
 
-    return actions
+    return [initial_state, goal_state, actions]
