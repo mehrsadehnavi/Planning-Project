@@ -33,7 +33,8 @@ def main():
                                                          "onC1P1",
                                                          "atC2D1", "onC2C1", "atC3D0", "onC3P1"],
                           negative_literals=["clearP0", "clearD0", ""])
-    goal_state = State(None, None, positive_literals=["onC0P2", "onC1P3", "onC2P0", "onC3P1"])
+    goal_state = State(None, None, positive_literals=["onC0P2", "onC1P3", "onC2P0", "onC3P1"],
+                       negative_literals=["clearD0", "clearD1", "clearP0", "clearP1"])
 
     # Action("Generic", positive_preconditions=["B", "C"], negative_preconditions=[], add_list=["D"], delete_list=[])]
     start_time = time.time()

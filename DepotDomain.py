@@ -5,18 +5,19 @@ initial_state = State(None, None, positive_literals=["atP0D0", "clearC0", "atP1D
                                                      "atT0D0", "atT1D0", "atH0D0", "availableH0", "atH1D0", "availableH1",
                                                      "atH2D1", "availableH2", "atC0D0", "onC0P0", "atC1D1", "onC1P1",
                                                      "atC2D1", "onC2C1", "atC3D0", "onC3P1"],
-                      negative_literals=["clearP0", "clearD0", ""])
-goal_state = State(None, None, positive_literals=["onC0P2", "onC1P3", "onC2P0", "onC3P1"])
+                      negative_literals=["clearD0", "clearD1", "clearP0", "clearP1"])
+goal_state = State(None, None, positive_literals=["onC0P2", "onC1P3", "onC2P0", "onC3P1"],
+                   negative_literals=[])
 
 def get_actions():
     actions = []
-    Depot = ["depot"]
+    Depot = ["D0", "D1"]
 #   Distributor = ["distributor0", "distributor1"]
-    Truck = ["truck0", "truck1"]
-    Pallet = ["pallet0", "pallet1"]
-    Crate = ["crate0", "crate1", "crate2", "crate3"]
-    Hoist = ["hoist0", "hoist1", "hoist2"]
-    Surface = ["surface"]
+    Truck = ["T0", "T1"]
+    Pallet = ["P0", "P1", "P2"]
+    Crate = ["C0", "C1", "C2", "C3"]
+    Hoist = ["H0", "H1", "H2"]
+    Surface = ["S0", "S1", "S2"]
 
     #Drive
     for t in Truck:
@@ -26,12 +27,12 @@ def get_actions():
                     for c in Crate:
                         if d1 != d2:
                             drive_action = Action(name="drive" + t + d1 + d2 + c + p,
-                                                  positive_preconditions=["at" + d1 + c, "at" + d1 + t, "clear" + d2,
-                                                                          "at" + d1 + p, "in" + c + p],
+                                                  positive_preconditions=["at" + c + d1, "at" + t + d1, "clear" + d2,
+                                                                          "at" + p + d1, "on" + c + p],
                                                   negative_preconditions=[],
-                                                  add_list=["at" + d2 + c, "at" + d2 + p],
-                                                  delete_list=["clear" + d2, "at" + d1 + c, "at" + d1 + p])
-                        actions.append(put_action)
+                                                  add_list=["at" + c + d2, "at" + p + d2],
+                                                  delete_list=["clear" + d2, "at" + c + d1, "at" + p + d1])
+                            actions.append(drive_action)
 
 
     #Load
@@ -41,13 +42,13 @@ def get_actions():
                 for d in Depot:
                     for p in Pallet:
                         load_action = Action(name="load" + h + c + t + d + p,
-                                             positive_preconditions=["at" + d + h, "at" + d + t, "lifting" + h + c,
-                                                                     "at" + d + c, "clear" + t, "at" + d + p,
-                                                                     "in" + c + p],
+                                             positive_preconditions=["at" + h + d, "at" + t + d, "lifting" + h + c,
+                                                                     "at" + c + d, "clear" + t, "at" + p + d,
+                                                                     "on" + c + p],
                                              negative_preconditions=[],
                                              add_list=["in" + c + t, "available" + h, "dropping" + h + c, "in" + p + t],
-                                             delete_list=["at" + d + c, "lifting" + h + c, "at" + d + p])
-                        actions.append(put_action)
+                                             delete_list=["at" + c + d, "lifting" + h + c, "at" + p + d])
+                        actions.append(load_action)
 
 
     #Unload
@@ -57,13 +58,13 @@ def get_actions():
                 for d in Depot:
                     for p in Pallet:
                         unload_action = Action(name="unload" + h + c + t + d + p,
-                                               positive_preconditions=["at" + d + h, "at" + d + t,
-                                                                       "available" + h, "in" + c + t, + "in" + p + t,
-                                                                       "in" + c + p],
+                                               positive_preconditions=["at" + h + d, "at" + t + d,
+                                                                       "available" + h, "in" + c + t, "in" + p + t,
+                                                                       "on" + c + p],
                                                negative_preconditions=[],
-                                               add_list=["at" + d + c, "lifting" + h + c, "at" + d + p],
+                                               add_list=["at" + c + d, "lifting" + h + c, "at" + p + d],
                                                delete_list=["in" + c + t, "available" + h])
-                        actions.append(put_action)
+                        actions.append(unload_action)
 
 
     #Lift
@@ -73,13 +74,13 @@ def get_actions():
                 for d in Depot:
                     for s in Surface:
                         lift_action = Action(name="lift" + h + c + p + d,
-                                             positive_preconditions=["at" + d + h, "available" + h, "at" + d + c,
-                                                                     "at" + d + p, "on" + c + s, "on" + p + s],
+                                             positive_preconditions=["at" + h + d, "available" + h, "at" + c + d,
+                                                                     "at" + p + d, "on" + c + s, "on" + p + s],
                                              negative_preconditions=[],
                                              add_list=["lifting" + h + c, "lifting" + h + p, "on" + c + h, "on" + p + h,
                                                        "clear" + s],
-                                             delete_list=["at" + d + p, "at" + d + c, "on" + c + s, "clear" + p + s])
-                        actions.append(put_action)
+                                             delete_list=["at" + p + d, "at" + c + d, "on" + c + s, "clear" + p + s])
+                        actions.append(lift_action)
 
 
     #Drop
@@ -89,10 +90,10 @@ def get_actions():
                 for p in Pallet:
                     for d in Depot:
                         drop_action = Action(name="drop" + h + c + s + p + d,
-                                             positive_preconditions=["at" + d + h,"at" + d + s, "clear" + s,
+                                             positive_preconditions=["at" + h + d,"at" + s + d, "clear" + s,
                                                                      "lifting" + h + c],
                                              negative_preconditions=[],
-                                             add_list=["available" + h, "dropping" + h + c, "at" + d + c, "at" + d + p,
+                                             add_list=["available" + h, "dropping" + h + c, "at" + c + d, "at" + p + d,
                                                        "clear" + c, "clear" + p, "on" + c + s, "on" + p + s],
                                              delete_list=["clear" + s, "lifting" + h + c])
-                        actions.append(put_action)
+                        actions.append(drop_action)
